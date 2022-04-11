@@ -17,4 +17,24 @@ createGame().then((id) => {
   localStorage.setItem('Game ID:', JSON.stringify(id));
 });
 
+const getScores = async () => {
+  const response = await axios.get(`${baseURL}games/APgDRkSbvQyfpid8MbNQ/scores`);
+  return response.data.result;
+};
 
+const scoreTable = document.getElementById('recent-score-list');
+
+const displayScores = () => {
+  getScores().then((scores) => {
+    scores.forEach((score) => {
+      const htmlText = `<tr class="scores">
+                          <td>${score.user}kjjnlk</td>
+                          <td>${score.score}</td>
+                        </tr>`;
+
+      scoreTable.insertAdjacentHTML = ('beforeend', htmlText);
+    });
+  });
+};
+
+displayScores();
