@@ -69,3 +69,6 @@ submitBtn.addEventListener('click', (e) => {
   e.preventDefault();
 });
 
+const refresh = document.getElementById('refresh');
+
+refresh.addEventListener('click', displayScores);
