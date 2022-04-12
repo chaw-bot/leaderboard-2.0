@@ -28,18 +28,44 @@ const displayScores = () => {
   getScores().then((scores) => {
     scores.forEach((score) => {
       const htmlText = `<tr class="scores">
-                          <td>${score.user}kjjnlk</td>
-                          <td>${score.score}</td>
+                          <td id="userName">${score.user}</td>
+                          <td id="userScore">${score.score}</td>
                         </tr>`;
 
-      scoreTable.insertAdjacentHTML = ('beforeend', htmlText);
+      scoreTable.insertAdjacentHTML('beforeend', htmlText);
     });
   });
 };
 
 displayScores();
 
-const addScore = async (url = '', data = {}) => {
-  const response = await axios.post(url, data);
+const addScore = async (url = '', info = {}) => {
+  const response = await axios.post(url, info);
   return response.data;
 };
+
+const submitBtn = document.getElementById('submit');
+
+submitBtn.addEventListener('click', (e) => {
+  const inputName = document.getElementById('name');
+  const inputScore = document.getElementById('score');
+
+  const name = inputName.value;
+  const score = inputScore.value;
+
+  if (name === '' || score === '') {
+    scoreTable.insertAdjacentHTML('beforebegin', '<span class="error">Please make sure both fields are filled😋</span>');
+    setTimeout(() => {
+      document.querySelector('.error').remove();
+    }, 3000);
+  } else {
+    scoreTable.insertAdjacentHTML('beforebegin', '<span class="success">Thank you! Your score has been added!🤘🏾</span>');
+    addScore(`${baseURL}games/APgDRkSbvQyfpid8MbNQ/scores`, { user: name, score });
+    setTimeout(() => {
+      document.querySelector('.success').remove();
+    }, 3000);
+  }
+
+  e.preventDefault();
+});
+
