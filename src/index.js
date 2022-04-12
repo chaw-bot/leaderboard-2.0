@@ -19,7 +19,10 @@ createGame().then((id) => {
 
 const getScores = async () => {
   const response = await axios.get(`${baseURL}games/APgDRkSbvQyfpid8MbNQ/scores`);
-  return response.data.result;
+  const scoreArr = response.data.result;
+  // arrange them in descending order
+  scoreArr.sort((a, b) => b.score - a.score);
+  return scoreArr;
 };
 
 const scoreTable = document.getElementById('recent-score-list');
@@ -71,4 +74,6 @@ submitBtn.addEventListener('click', (e) => {
 
 const refresh = document.getElementById('refresh');
 
-refresh.addEventListener('click', displayScores);
+refresh.addEventListener('click', () => {
+  window.location.reload();
+});
